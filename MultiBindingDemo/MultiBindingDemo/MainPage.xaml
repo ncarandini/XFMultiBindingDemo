@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MultiBindingDemo.ViewModels"
+             xmlns:cv="clr-namespace:MultiBindingDemo.Converters"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MultiBindingDemo.MainPage">
+
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <cv:AllMustBeTrueMultiConverter x:Key="AllMustBeTrueMultiConverter"/>
+    </ContentPage.Resources>
+
+    <StackLayout HorizontalOptions="Center"
+                 VerticalOptions="CenterAndExpand" >
+
+        <Label Text="Welcome to Xamarin.Forms!" Margin="0,0,0,40"/>
+
+        <Label Text="Condition A" />
+        <CheckBox IsChecked="{Binding ConditionA}" />
+
+        <Label Text="Condition B" />
+        <CheckBox IsChecked="{Binding ConditionB}" />
+
+        <Label Text="IsAllTrue" Margin="0,50,0,0">
+            <Label.IsVisible>
+                <MultiBinding Converter="{StaticResource AllMustBeTrueMultiConverter}">
+                    <Binding Path="ConditionA"/>
+                    <Binding Path="ConditionB"/>
+                </MultiBinding>
+            </Label.IsVisible>
+        </Label>
+
+        <Label Text="I don't need MultiBinding nor Converters to say that is all true!" Margin="0,50,0,0"
+               IsVisible="{Binding ConditionAandB}"/>
+
+    </StackLayout>
+
+</ContentPage>
+
